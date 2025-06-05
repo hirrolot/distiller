@@ -2,6 +2,8 @@
 
 [_"Distillation with labelled transition systems"_](https://www.researchgate.net/publication/220989857_Distillation_with_labelled_transition_systems)
 
+Usage:
+
 ```
-stack run
+$ stack run
 ```
