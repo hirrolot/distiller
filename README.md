@@ -1,6 +1,6 @@
 # `distiller`
 
-[_"Distillation with labelled transition systems"_](https://dl.acm.org/doi/10.1145/2103746.2103753)
+[_"Distillation with labelled transition systems"_](https://www.researchgate.net/publication/220989857_Distillation_with_labelled_transition_systems)
 
 ```
 stack run
