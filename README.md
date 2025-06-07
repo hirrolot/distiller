@@ -9,3 +9,5 @@ $ stack run
 ```
 
 Note: all variables in an input program must be named differently to avoid name capturing issues.
+
+Note: it doesn't work with free variables yet for some unknown reason.

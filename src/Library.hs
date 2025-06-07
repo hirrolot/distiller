@@ -236,8 +236,8 @@ handleFoldingOrEmbedding defs gensym t pi theta = do
   case renamingOpportunity of
     Just (t'', sigma) -> return $ Just $ foldLts t'' sigma
     Nothing -> do
-      embeddingOpportunity <- findLtsEmbedding t pi
-      case embeddingOpportunity of
+      couplingOpportunity <- findLtsCoupling t pi
+      case couplingOpportunity of
         Just (t'', sigma) -> do
           (g, _newTheta) <- generalizeLts defs gensym t'' t theta sigma
           Just <$> transformLts' defs gensym g pi Map.empty
@@ -256,18 +256,18 @@ findLtsRenaming t = \case
         readIORef sigmaRef >>= \sigma -> return $ Just (t', sigma)
       Left _ -> findLtsRenaming t rest
 
-findLtsEmbedding :: Lts -> Pi -> IO (Maybe (Lts, Sigma))
-findLtsEmbedding t = \case
+findLtsCoupling :: Lts -> Pi -> IO (Maybe (Lts, Sigma))
+findLtsCoupling t = \case
   [] -> return Nothing
   (t' : rest) -> do
     sigmaRef <- newIORef Map.empty
-    canEmbed <-
+    canCouple <-
       try @EmbedsLtsException $
-        embedsLts sigmaRef Set.empty Map.empty (t', t)
-    case canEmbed of
+        couplesLts sigmaRef Set.empty Map.empty (t', t)
+    case canCouple of
       Right _ ->
         readIORef sigmaRef >>= \sigma -> return $ Just (t', sigma)
-      Left _ -> findLtsEmbedding t rest
+      Left _ -> findLtsCoupling t rest
 
 generalizeLts :: DefinitionMap -> Gensym -> Lts -> Lts -> GeneralizationCache -> Sigma -> IO (Lts, GeneralizationCache)
 generalizeLts defs gensym t t' theta sigma = case (t, t') of
